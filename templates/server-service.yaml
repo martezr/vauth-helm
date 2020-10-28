@@ -1,0 +1,19 @@
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: {{ .Release.Name }}-vauth
+  annotations:
+    description: Vauth backend
+  labels:
+    app: vauth
+    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    release: {{ .Release.Name }}
+spec:
+  selector:
+    app: vauthbackend
+    release: {{ .Release.Name }}
+  type: ClusterIP
+  ports:
+  - protocol: TCP
+    port: 80

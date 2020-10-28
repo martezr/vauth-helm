@@ -1,0 +1,72 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: {{ .Release.Name }}-scheduler
+  namespace: {{ .Release.Namespace }}
+  labels:
+    name: vauth-scheduler
+spec:
+  containers:
+  - name: vauth-scheduler
+    image: martezr/vauth-scheduler
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: {{ .Release.Name }}-worker
+  namespace: {{ .Release.Namespace }}
+  labels:
+    name: vauth-worker
+spec:
+  containers:
+  - name: vauth-worker
+    image: martezr/vauth-worker
+    envFrom:
+      - configMapRef:
+          name: {{ .Release.Name }}-configmap
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: {{ .Release.Name }}-syncer
+  namespace: {{ .Release.Namespace }}
+  labels:
+    name: vauth-syncer
+spec:
+  containers:
+  - name: vauth-syncer
+    image: martezr/vauth-syncer
+    envFrom:
+      - configMapRef:
+          name: {{ .Release.Name }}-configmap
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: {{ .Release.Name }}-watcher
+  namespace: {{ .Release.Namespace }}
+  labels:
+    name: vauth-watcher
+spec:
+  containers:
+  - name: vauth-watcher
+    image: martezr/vauth-watcher
+    envFrom:
+      - configMapRef:
+          name: {{ .Release.Name }}-configmap
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: {{ .Release.Name }}-backend
+  namespace: {{ .Release.Namespace }}
+  labels:
+    name: vauth-backend
+spec:
+  containers:
+  - name: vauth-backend
+    image: martezr/vauth-backend
+    envFrom:
+      - configMapRef:
+          name: {{ .Release.Name }}-configmap
